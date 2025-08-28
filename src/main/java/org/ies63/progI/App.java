@@ -2,6 +2,7 @@ package org.ies63.progI;
 
 import org.ies63.progI.configuracion.AdministradorConexion;
 import org.ies63.progI.dao.AutoDAO;
+import org.ies63.progI.dao.AutoImpl;
 import org.ies63.progI.entities.Auto;
 import org.ies63.progI.entities.Marca;
 
@@ -47,6 +48,13 @@ public class App {
         System.out.println(auto1.toString());
       }
     }
+    System.out.println(" ----------AGREGANDO CON DAO IMPL ----------------");
+    Auto autoTest=
+    new Auto( "CCCCCC", "Blanco", 2025, 0
+        , Marca.Toyota, "Corolla");
+    AutoImpl autoImpl= new AutoImpl();
+    autoImpl.insert(autoTest);
+
   }
 
 
