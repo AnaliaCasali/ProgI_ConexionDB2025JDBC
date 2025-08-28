@@ -21,9 +21,11 @@ public class App {
             , Marca.Honda, "Fit");
     // guardo en la BD
     AutoDAO autoDAO = new AutoDAO();
+    AutoImpl autoImpl = new AutoImpl();
     autoDAO.insertarAuto(auto);
       // recorro la lista de autos
-    List<Auto> miLista = autoDAO.findAll();
+    //List<Auto> miLista = autoDAO.findAll();
+    List<Auto> miLista = autoImpl.getAll();
     if (!miLista.isEmpty()) {
       for (Auto auto1 : miLista) {
         System.out.println(auto1.toString());
@@ -34,11 +36,12 @@ public class App {
         new Auto(10, "AABBCC", "Gis", 2024, 897555
             , Marca.Honda, "Fit");
 
-    autoDAO.update(autoAModificar);
-
+    //autoDAO.update(autoAModificar);
+    autoImpl.update(autoAModificar);
     //autoDAO.delete(14);
 
-    System.out.println("Auto encontrado: " + autoDAO.getById(25).toString());
+//    System.out.println("Auto encontrado: " + autoDAO.getById(25).toString());
+    System.out.println("Auto encontrado: " + autoImpl.getById(25).toString());
 
     System.out.println("Lista de autos después de la modificación:");
     // recorro la lista de autos
@@ -52,7 +55,6 @@ public class App {
     Auto autoTest=
     new Auto( "CCCCCC", "Blanco", 2025, 0
         , Marca.Toyota, "Corolla");
-    AutoImpl autoImpl= new AutoImpl();
     autoImpl.insert(autoTest);
 
   }

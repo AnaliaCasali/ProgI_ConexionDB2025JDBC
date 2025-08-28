@@ -2,11 +2,11 @@ package org.ies63.progI.dao;
 
 import org.ies63.progI.configuracion.AdministradorConexion;
 import org.ies63.progI.entities.Auto;
+import org.ies63.progI.entities.Marca;
 import org.ies63.progI.interfaces.AdmConnexion;
 import org.ies63.progI.interfaces.DAO;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
@@ -28,8 +28,52 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
 
   @Override
   public List<Auto> getAll() {
-    List<Auto> lista= new ArrayList<>();
-    return lista;
+    //1 conectar
+    conn = obtenerConexion();
+
+    //2  crear consulta SQL
+    String sql = "SELECT * FROM autos order by patente";
+
+    // 3 crear  statement y resulset
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    List<Auto> listaAutos = new java.util.ArrayList<>();
+
+    try {
+      // paso 3 crear instruccion
+      pst = conn.prepareStatement(SQL_GETALL);
+      // paso 4 ejecutar consulta y guarda el resultado en resultset
+      rs = pst.executeQuery();
+
+      // paso 5 recorrer el resultset y guardar los autos en una lista
+      while (rs.next()) {
+        Auto auto = new Auto();
+        auto.setIdAuto(rs.getInt("idAuto"));
+        auto.setAnio(rs.getInt("anio"));
+        auto.setPatente(rs.getString("patente"));
+        auto.setColor(rs.getString("color"));
+        auto.setKilometraje(rs.getInt("kilometraje"));
+        auto.setMarca(Marca.valueOf(rs.getString("marca")));
+        auto.setModelo(rs.getString("modelo"));
+
+        listaAutos.add(auto);
+      }
+
+      // paso 6 cerrar el resultset y statement
+      rs.close();
+      pst.close();
+      conn.close();
+
+
+    } catch (SQLException e) {
+      System.out.println("Error al crear el statement");
+      throw new RuntimeException(e);
+    }
+
+
+    return listaAutos;
+
   }
 
   @Override
@@ -39,17 +83,6 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
     conn = obtenerConexion();
     // establecer conexion a la base de datos
 
-    // paso 2 crear string consulta SQL
-/*    String sql =
-        "INSERT INTO autos (idAuto,patente,color,anio,kilometraje,marca,modelo) " +
-            "VALUES            (" + auto.getIdAuto() + "," +
-            "'" + auto.getPatente() + "'," +
-            "'" + auto.getColor() + "'," +
-            +auto.getAnio() + "," +
-            +auto.getKilometraje() + "," +
-            "'" + auto.getMarca() + "'," +
-            "'" + auto.getModelo() + "')";
-*/
     // paso 3 crear instruccion
     PreparedStatement pst = null;
     try {
@@ -90,6 +123,42 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
 
   @Override
   public void update(Auto objeto) {
+    conn=this.obtenerConexion();
+    Auto auto= objeto;
+    // solo si el auto existe lo modifico
+    if (this.existsById(auto.getIdAuto())) {
+
+      conn = AdministradorConexion.obtenerConexion();
+      // Se crea un statement
+      PreparedStatement pst = null;
+
+      try {
+        // ejecuto
+        pst = conn.prepareStatement(SQL_UPDATE);
+
+        pst.setString(1, auto.getPatente());
+        pst.setString(2,auto.getColor());
+        pst.setInt(3,auto.getAnio());
+        pst.setInt(4,auto.getKilometraje());
+        pst.setString(5,auto.getMarca().toString());
+        pst.setString(6,auto.getModelo());
+        pst.setInt(7,auto.getIdAuto());
+        // paso 4 ejecutar instruccion
+        // executeUpdate devuelve 1 si ejecuto correctamente 0 caso contrario
+        int resultado = pst.executeUpdate();
+        if (resultado == 1) {
+          System.out.println("Auto actualizo correctamente");
+        } else {
+          System.out.println("No se pudo actualizar el auto");
+        }
+
+        pst.close();
+        conn.close();
+
+      } catch (SQLException e) {
+        System.out.println("Error al crear el statement");
+      }
+    }
 
   }
 
@@ -116,11 +185,63 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
 
   @Override
   public Auto getById(Integer id) {
-    return null;
+    conn = obtenerConexion();
+    // Se crea un statement
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    boolean existe = false;
+    Auto auto=null;
+
+    try {
+      pst = conn.prepareStatement(SQL_GETBYID); // CREO STATEMENT
+      pst.setInt(1,id);
+      rs = pst.executeQuery(); //EJECUTO CONSULTA
+      // SI LA CONSULTA DEVUELVE AL MENOS UN REGISTRO, EXISTE
+      if (rs.next()) {
+          auto=new Auto();
+          // asigno los datos a auto
+          auto.setIdAuto(rs.getInt("idAuto"));
+          auto.setPatente(rs.getString("patente"));
+          auto.setColor(rs.getString("color"));
+          auto.setMarca(Marca.valueOf( rs.getString("marca")));
+          auto.setAnio(rs.getInt("anio"));
+          auto.setKilometraje(rs.getInt("kilometraje"));
+          auto.setModelo(rs.getString("modelo"));
+        }
+
+      // CIERRO RESULTSET Y STATEMENT
+      rs.close();
+      pst.close();
+      conn.close();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return auto;
   }
+
 
   @Override
   public boolean existsById(Integer id) {
-    return false;
+    conn = obtenerConexion();
+    // Se crea un statement
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    boolean existe = false;
+    try {
+      pst = conn.prepareStatement(SQL_GETBYID); // CREO STATEMENT
+      pst.setInt(1,id);
+      rs = pst.executeQuery(); //EJECUTO CONSULTA
+      // SI LA CONSULTA DEVUELVE AL MENOS UN REGISTRO, EXISTE
+      if (rs.next()) {
+        existe = true;
+      }
+      // CIERRO RESULTSET Y STATEMENT
+      rs.close();
+      pst.close();
+      conn.close();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return existe;
   }
 }
