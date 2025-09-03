@@ -3,7 +3,9 @@ package org.ies63.progI;
 import org.ies63.progI.configuracion.AdministradorConexion;
 import org.ies63.progI.dao.AutoDAO;
 import org.ies63.progI.dao.AutoImpl;
+import org.ies63.progI.dao.ClienteImpl;
 import org.ies63.progI.entities.Auto;
+import org.ies63.progI.entities.Cliente;
 import org.ies63.progI.entities.Marca;
 
 import java.sql.Connection;
@@ -57,10 +59,15 @@ public class App {
         , Marca.Toyota, "Corolla");
     autoImpl.insert(autoTest);
 
+    Cliente c=new Cliente(1,"Juan","Perez","12345678");
+    ClienteImpl clienteImpl=new ClienteImpl();
+    clienteImpl.insert(c);
+
+
+
+
+
   }
-
-
-
 
 }
 
