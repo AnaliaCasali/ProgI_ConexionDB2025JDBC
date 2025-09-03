@@ -12,11 +12,12 @@ public class Auto implements Comparable {
 	private Marca marca;
 	private String modelo;
 	private  Cliente cliente;
-
+	private Seguro seguro;
 
 	
 	public Auto(){
 		this.cliente= new Cliente();
+		this.seguro= new Seguro();
 	}
 	
 	
@@ -24,10 +25,11 @@ public class Auto implements Comparable {
 		idAuto=-1;
 		this.patente= patente;
 		this.cliente= new Cliente();
+		this.seguro= new Seguro();
 	}
 
 	public Auto(String patente, String color, int anio, int kilometraje,
-							Marca marca, String modelo, Cliente cliente) {
+							Marca marca, String modelo, Cliente cliente, Seguro seguro) {
 		this.patente = patente;
 		this.color = color;
 		this.anio = anio;
@@ -35,15 +37,9 @@ public class Auto implements Comparable {
 		this.marca = marca;
 		this.modelo = modelo;
 		this.cliente = cliente;
+		this.seguro = seguro;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 
 	public Auto(int id, String patente, String color, int anio, int kilometraje, Marca marca, String modelo) {
 		this.idAuto= id;
@@ -53,6 +49,24 @@ public class Auto implements Comparable {
 		this.kilometraje = kilometraje;
 		this.marca = marca;
 		this.modelo = modelo;
+		this.cliente= null;
+		this.seguro= null;
+	}
+
+	public Seguro getSeguro() {
+		return seguro;
+	}
+
+	public void setSeguro(Seguro seguro) {
+		this.seguro = seguro;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public int getIdAuto() {
@@ -131,7 +145,8 @@ public class Auto implements Comparable {
 	@Override
 	public String toString() {
 		return "Auto [" +  idAuto +"  patente=" + patente + ", color=" + color + ", anio=" + anio + ", kilometraje=" + kilometraje
-				+ ", marca=" + marca + ", modelo=" + modelo + ", " +  this.cliente.toString() +  "]";
+				+ ", marca=" + marca + ", modelo=" + modelo + ", "
+				+  this.cliente.toString() + " " + this.seguro.toString() + "]";
 	}
 
 
