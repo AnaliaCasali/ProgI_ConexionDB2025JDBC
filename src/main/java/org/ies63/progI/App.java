@@ -22,10 +22,15 @@ public class App {
     ClienteImpl clienteImpl=new ClienteImpl();
     clienteImpl.insert(c);
 
+    System.out.println("----------AGREGANDO SEGURO CON DAO IMPL ----------------");
+    Seguro s=new Seguro("Todo riesgo",123450,"El Norte");
+    SeguroImpl seguroImpl=new SeguroImpl();
+    seguroImpl.insert(s);
+
     System.out.println("Hello World!");
     Auto auto =
         new Auto("CCCCCC", "Blanco", 2025, 897
-            , Marca.Honda, "Fit", c);
+            , Marca.Honda, "Fit", c, s);
 
     System.out.println( auto.toString());
 

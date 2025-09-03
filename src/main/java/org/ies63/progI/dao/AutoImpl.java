@@ -13,8 +13,8 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
   private Connection conn= null;
 
   private static final String SQL_INSERT=
-      "INSERT INTO autos (patente,color,anio,kilometraje,marca,modelo,idCliente) " +
-      "VALUES            (      ?,        ?,    ?,   ?,        ?,      ?, ?)";
+      "INSERT INTO autos (patente,color,anio,kilometraje,marca,modelo,idCliente, idSeguro) " +
+      "VALUES            (      ?,        ?,    ?,   ?,        ?,      ?, ?,?)";
 
 
   private static  final String  SQL_UPDATE= "UPDATE autos SET " +
@@ -84,7 +84,11 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
     // establecer conexion a la base de datos
 
     ClienteImpl clienteImpl=new ClienteImpl();
-    if(clienteImpl.existsById(auto.getCliente().getId())) {
+    SeguroImpl seguroImpl=new SeguroImpl();
+    boolean existeCliente=clienteImpl.existsById(auto.getCliente().getId());
+    boolean existeSeguro=seguroImpl.existsById(auto.getSeguro().getIdSeguro());
+      // solo guardo si existe el cliente y el seguro en la base de datos
+    if( existeCliente && existeSeguro) {
 
       // paso 3 crear instruccion
       PreparedStatement pst = null;
@@ -99,8 +103,8 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
         pst.setInt(4, auto.getKilometraje());
         pst.setString(5, auto.getMarca().toString());
         pst.setString(6, auto.getModelo());
-
         pst.setInt(7, auto.getCliente().getId());
+        pst.setInt(8, auto.getSeguro().getIdSeguro());
 
         // paso 4 ejecutar instruccion
         // executeUpdate devuelve 1 si ejecuto correctamente 0 caso contrario
@@ -126,7 +130,10 @@ public class AutoImpl implements DAO<Auto,Integer>, AdmConnexion {
       }
 
     }
-    else System.out.println("No se puede insertar el auto. No existe el cliente con id: "+auto.getCliente().getId());
+    else {
+      System.out.println("No se puede insertar el auto. No existe el cliente con id: " + auto.getCliente().getId());
+      System.out.println("No se puede insertar el seguro. No existe el seguro con id: " + auto.getSeguro().getIdSeguro());
+    }
   }
 
   @Override
