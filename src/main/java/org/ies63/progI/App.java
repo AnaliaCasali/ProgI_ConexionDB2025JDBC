@@ -18,11 +18,20 @@ import java.util.List;
  */
 public class App {
   public static void main(String[] args) {
+    Cliente c=new Cliente(1,"Maria","Perez","12345678");
+    ClienteImpl clienteImpl=new ClienteImpl();
+    clienteImpl.insert(c);
 
     System.out.println("Hello World!");
     Auto auto =
         new Auto("CCCCCC", "Blanco", 2025, 897
-            , Marca.Honda, "Fit");
+            , Marca.Honda, "Fit", c);
+
+    System.out.println( auto.toString());
+
+
+/*
+
     // guardo en la BD
     AutoDAO autoDAO = new AutoDAO();
     AutoImpl autoImpl = new AutoImpl();
@@ -35,10 +44,11 @@ public class App {
         System.out.println(auto1.toString());
       }
     }
+
+
     //modifica auto
     Auto autoAModificar =
-        new Auto(10, "AABBCC", "Gis", 2024, 897555
-            , Marca.Honda, "Fit");
+        new Auto( "AABBCC", "Gis", 2024, 897555, Marca.Honda, "Fit",c);
 
     //autoDAO.update(autoAModificar);
     autoImpl.update(autoAModificar);
@@ -58,21 +68,21 @@ public class App {
     System.out.println(" ----------AGREGANDO CON DAO IMPL ----------------");
     Auto autoTest=
     new Auto( "CCCCCC", "Blanco", 2025, 0
-        , Marca.Toyota, "Corolla");
+        , Marca.Toyota, "Corolla", c);
     autoImpl.insert(autoTest);
 
-    Cliente c=new Cliente(1,"Juan","Perez","12345678");
-    ClienteImpl clienteImpl=new ClienteImpl();
-    clienteImpl.insert(c);
+
+
 
     System.out.println("----------AGREGANDO SEGURO CON DAO IMPL ----------------");
     Seguro s=new Seguro("Todo riesgo",123450,"Mapfre");
     SeguroImpl seguroImpl=new SeguroImpl();
     seguroImpl.insert(s);
 
+    System.out.println("Lista de cliente después de insertar con DAO IMPL:");
 
+*/
   }
-
 }
 
 

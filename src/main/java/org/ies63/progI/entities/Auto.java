@@ -11,30 +11,41 @@ public class Auto implements Comparable {
 	private int kilometraje;
 	private Marca marca;
 	private String modelo;
-	
-	
+	private  Cliente cliente;
+
+
 	
 	public Auto(){
-		idAuto=-1;
+		this.cliente= new Cliente();
 	}
 	
 	
 	public Auto(String patente){
 		idAuto=-1;
-		this.patente= patente;		
+		this.patente= patente;
+		this.cliente= new Cliente();
 	}
 
-	public Auto(String patente, String color, int anio, int kilometraje, Marca marca, String modelo) {
-		super();
+	public Auto(String patente, String color, int anio, int kilometraje,
+							Marca marca, String modelo, Cliente cliente) {
 		this.patente = patente;
 		this.color = color;
 		this.anio = anio;
 		this.kilometraje = kilometraje;
 		this.marca = marca;
 		this.modelo = modelo;
+		this.cliente = cliente;
 	}
 
-	public Auto(int id,String patente, String color, int anio, int kilometraje, Marca marca, String modelo) {
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Auto(int id, String patente, String color, int anio, int kilometraje, Marca marca, String modelo) {
 		this.idAuto= id;
 		this.patente = patente;
 		this.color = color;
@@ -120,7 +131,7 @@ public class Auto implements Comparable {
 	@Override
 	public String toString() {
 		return "Auto [" +  idAuto +"  patente=" + patente + ", color=" + color + ", anio=" + anio + ", kilometraje=" + kilometraje
-				+ ", marca=" + marca + ", modelo=" + modelo + "]";
+				+ ", marca=" + marca + ", modelo=" + modelo + ", " +  this.cliente.toString() +  "]";
 	}
 
 
