@@ -4,9 +4,11 @@ import org.ies63.progI.configuracion.AdministradorConexion;
 import org.ies63.progI.dao.AutoDAO;
 import org.ies63.progI.dao.AutoImpl;
 import org.ies63.progI.dao.ClienteImpl;
+import org.ies63.progI.dao.SeguroImpl;
 import org.ies63.progI.entities.Auto;
 import org.ies63.progI.entities.Cliente;
 import org.ies63.progI.entities.Marca;
+import org.ies63.progI.entities.Seguro;
 
 import java.sql.Connection;
 import java.util.List;
@@ -63,8 +65,10 @@ public class App {
     ClienteImpl clienteImpl=new ClienteImpl();
     clienteImpl.insert(c);
 
-
-
+    System.out.println("----------AGREGANDO SEGURO CON DAO IMPL ----------------");
+    Seguro s=new Seguro("Todo riesgo",123450,"Mapfre");
+    SeguroImpl seguroImpl=new SeguroImpl();
+    seguroImpl.insert(s);
 
 
   }

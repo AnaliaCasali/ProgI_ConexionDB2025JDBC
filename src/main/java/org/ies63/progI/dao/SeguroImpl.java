@@ -14,18 +14,18 @@ public class SeguroImpl implements AdmConnexion, DAO<Seguro, Integer> {
   private Connection conn = null;
 
   private static String SQL_INSERT =
-      "INSERT INTO seguro (tipo, costoMensual, compañia) " +
+      "INSERT INTO seguros (tipo, costoMensual, compañia) " +
           "VALUES (?, ?, ?)";
   private static String SQL_UPDATE =
-      "UPDATE seguro SET" +
+      "UPDATE seguros SET" +
           "tipo = ?," +
           "costoMensual = ?," +
           "compañia = ?" +
           "WHERE idSeguro = ?";
-  private static String SQL_DELETE = "DELETE FROM seguro WHERE idSeguro = ?";
-  private static String SQL_GETALL = "SELECT * FROM seguro ORDER BY tipo";
-  private static String SQL_GETBYID = "SELECT * FROM seguro WHERE idSeguro = ?";
-  private static String SQL_EXISTSBYID = "SELECT * FROM seguro WHERE idSeguro = ?";
+  private static String SQL_DELETE = "DELETE FROM seguros WHERE idSeguro = ?";
+  private static String SQL_GETALL = "SELECT * FROM seguros ORDER BY tipo";
+  private static String SQL_GETBYID = "SELECT * FROM seguros WHERE idSeguro = ?";
+  private static String SQL_EXISTSBYID = "SELECT * FROM seguros WHERE idSeguro = ?";
 
 
   @Override
