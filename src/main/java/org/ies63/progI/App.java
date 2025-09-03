@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class App {
   public static void main(String[] args) {
-    Cliente c=new Cliente(1,"Maria","Perez","12345678");
+    Cliente c=new Cliente(10,"Maria10","Perez","12345678");
     ClienteImpl clienteImpl=new ClienteImpl();
     clienteImpl.insert(c);
 
@@ -28,6 +28,10 @@ public class App {
             , Marca.Honda, "Fit", c);
 
     System.out.println( auto.toString());
+
+    AutoImpl autoImpl = new AutoImpl();
+    autoImpl.insert(auto);
+
 
 
 /*
